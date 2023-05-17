@@ -1,0 +1,5 @@
+﻿  Board.cpp
+  Othello.cpp
+C:\Users\froze\Desktop\C++ Projects\Reversi\Reversi\Othello.cpp(69,8): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  Reversi.vcxproj -> C:\Users\froze\Desktop\C++ Projects\Reversi\Reversi\x64\Debug\Reversi.exe
