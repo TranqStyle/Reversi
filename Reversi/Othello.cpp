@@ -86,25 +86,40 @@ void Othello::promptTurn(Board oBoard) {
 	
 
 
-void Othello::getMove(Board oBoard) {
+void Othello::getMove(Board& oBoard) {
 	std::string moveString;
+	bool goodFormat{ false };
+	bool goodMove{ false };
 	int row{ 0 };
 	int column{ 0 };
 	std::cout << "\nPlease make a valid move(Format: A5 or a5): ";
 	std::cin >> moveString;
 	std::string moveStringRemovedWS = removeWS(moveString);
-	do {
-		while (!isValidFormat(moveStringRemovedWS)) { // tries to get a valid format
+	while (!goodFormat || !goodMove) {
+		if (isValidFormat(moveStringRemovedWS)) { // if it's in valid format
+			convertNotationToArrayPos(moveStringRemovedWS, row, column); // converts the notation to array indices
+			goodFormat = true;
+			if (oBoard.isValid(row, column, oBoard.getTurn())) { // if it's a valid move
+				goodMove = true;
+				commitMove(row, column, oBoard);
+			}
+			else { // if it's not a valid move
+				goodMove = false;
+				std::cout << "\nThat's an invalid move. Please enter a valid move(Format: A5 or a5): ";
+				std::cin >> moveString;
+				moveStringRemovedWS = removeWS(moveString);
+			}
+		}
+		else { // if it's not a valid format
+			goodFormat = false;
 			std::cout << "\nThat's an invalid move. Please enter a valid move(Format: A5 or a5): ";
 			std::cin >> moveString;
 			moveStringRemovedWS = removeWS(moveString);
 		}
-		convertNotationToArrayPos(moveStringRemovedWS, row, column); // converts the notation to array indices
-	} while (!oBoard.isValid(row, column, oBoard.getTurn())); // checks if the made move is a valid move.
-	commitMove(row, column, oBoard);
+	}
 }
 
-void Othello::commitMove(int row, int column, Board oBoard) {
+void Othello::commitMove(int row, int column, Board &oBoard) {
 	oBoard.setLastRow(row);
 	oBoard.setLastColumn(column);
 }
