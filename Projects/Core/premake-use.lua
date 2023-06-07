@@ -1,0 +1,3 @@
+includedirs "."
+
+links "Core"
