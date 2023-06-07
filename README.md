@@ -1,2 +1,2 @@
-# C-Projects
-My C++ Projects
+# Reversi
+Reversi framework and players
