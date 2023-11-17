@@ -17,7 +17,7 @@ void GameHandler::init(const AbstractPlayer::Ptr& player0, const AbstractPlayer:
     _state->restart();
 }
 
-void GameHandler::play()
+State::Outcome GameHandler::play()
 {
     Logger::setSilent(_silentLogger);
     _logger.logUnitHead("play()");
@@ -39,7 +39,7 @@ void GameHandler::play()
                 _logger.log("Last move is ", _moveHistory.back());
             }
                 
-            _logger.log(*_state);
+            _logger.log(*_state); 
             
             State::Player onMove = _state->getOnMove();
             
@@ -64,6 +64,7 @@ void GameHandler::play()
     dumpGameInfo();
     _logger.logUnitTail("play()");
     Logger::setSilent(false);
+    return outcome;
 }
 
 void GameHandler::announceWinner(State::Outcome outcome) const

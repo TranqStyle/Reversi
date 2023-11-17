@@ -56,6 +56,7 @@ private:
     std::unordered_set<Position> getFlipsInDirection(const Position& pos, const Position& dir) const; //! Assumes that pos is empty and dir is a valid direction
 
     bool isOnEmpty(const Position& pos) const;
+    bool isOnCorner(const Position& pos) const;
     bool isOnBoundary(const Position& pos) const;
     bool isOnTable(const Position& pos) const;
 

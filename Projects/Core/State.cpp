@@ -282,11 +282,18 @@ bool State::isOnEmpty(const Position& pos) const
     return _table[pos.getRow()][pos.getCol()] == Player::NONE;
 }
 
-bool State::isOnBoundary(const Position& pos) const
+bool State::isOnCorner(const Position& pos) const
 {
     int row = pos.getRow();
     int col = pos.getCol();
     return (0 == row || row == TABLE_SIZE - 1) && (0 == col || col == TABLE_SIZE - 1);
+}
+
+bool State::isOnBoundary(const Position& pos) const
+{
+    int row = pos.getRow();
+    int col = pos.getCol();
+    return (0 == row || row == TABLE_SIZE - 1) || (0 == col || col == TABLE_SIZE - 1);
 }
 
 bool State::isOnTable(const Position& pos) const
