@@ -6,7 +6,7 @@
 
 class MoveWithMetrics {
 public:
-    MoveWithMetrics(const State::CPtr&, const Move & = Move{}, const double& = 0.40, const double& = 0.60);
+    MoveWithMetrics(const State::CPtr&, const Move & = Move{}, const double& = 0.30, const double& = 0.70);
     explicit MoveWithMetrics(const MoveWithMetrics& cpy) = default;
 
     MoveWithMetrics& operator=(const MoveWithMetrics& rhs) {

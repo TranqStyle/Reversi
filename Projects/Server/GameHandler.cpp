@@ -39,7 +39,7 @@ State::Outcome GameHandler::play()
                 _logger.log("Last move is ", _moveHistory.back());
             }
                 
-            _logger.log(*_state); 
+            _logger.log(*_state);
             
             State::Player onMove = _state->getOnMove();
             

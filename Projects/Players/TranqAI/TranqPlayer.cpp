@@ -13,7 +13,6 @@ TranqPlayer::TranqPlayer() : AbstractPlayer("TranqPlayer")
 {
 }
 
-// TODO: add a "mixed" type which compares mobility and most pieces and picks the better move.
 Move TranqPlayer::getMove(const State::CPtr& state)
 {
     std::set<Move> moveList = state->getValidMoves();

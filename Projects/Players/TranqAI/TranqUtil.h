@@ -1,5 +1,5 @@
-#ifndef TRANQUTIL_CPP
-#define TRANQUTIL_CPP
+#ifndef TRANQUTIL_H
+#define TRANQUTIL_H
 
 #include "State.h"
 
