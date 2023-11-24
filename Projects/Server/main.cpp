@@ -1,5 +1,5 @@
 #include "GameHandler.h"
-#include "GameCounter.h"
+#include "MultiGameRunner.h"
 
 #include <InteractivePlayer.h>
 #include <RandomPlayer.h>
@@ -16,11 +16,11 @@ int main()
     AbstractPlayer::Ptr player0 = std::make_shared<InteractivePlayer>();
     //AbstractPlayer::Ptr player1 = std::make_shared<RandomPlayer>();
 
-    GameCounter gameCounter{ player0, player1, 1 };
+    MultiGameRunner gameRunner{ player0, player1, 1 };
     
-    gameCounter.play();
+    gameRunner.play();
     
-    std::cout << gameCounter;
+    std::cout << gameRunner;
     
     return 0;
 }
