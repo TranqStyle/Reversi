@@ -14,11 +14,6 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const MultiGameRunner& multiGameRunner);
 
 	void play();
-
-	AbstractPlayer::Ptr getPlayer0() const;
-	AbstractPlayer::Ptr getPlayer1() const;
-	std::string getPlayer0Name() const;
-	std::string getPlayer1Name() const;
 	
 private:
 	AbstractPlayer::Ptr _player0;

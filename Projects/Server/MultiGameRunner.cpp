@@ -22,39 +22,21 @@ void MultiGameRunner::play()
 		State::Outcome outcome = gameHandler.play();
 		
 		++_currentGameCount;
-		++_gameOutcomes[outcome];	
+		++_gameOutcomes[outcome];
+		
+		std::cout << *this;
 	}
 }
 
 std::ostream& operator<<(std::ostream& os, const MultiGameRunner& multiGameRunner) 
 {	
 	os << "Games played: " << multiGameRunner._currentGameCount << " / " << multiGameRunner._totalGamesToBePlayed << "\n";
-	os << "P0( " << multiGameRunner.getPlayer0Name() << " ) won: " << multiGameRunner._gameOutcomes.at(State::Outcome::P0WIN) << " game";
+	os << "P0( " << multiGameRunner._player0->getPreferedName() << " ) won: " << multiGameRunner._gameOutcomes.at(State::Outcome::P0WIN) << " game";
 	os << (multiGameRunner._gameOutcomes.at(State::Outcome::P0WIN) > 1 ? "s" : "") << "\n";
-	os << "P1( " << multiGameRunner.getPlayer1Name() << " ) won: " << multiGameRunner._gameOutcomes.at(State::Outcome::P1WIN) << " game";
+	os << "P1( " << multiGameRunner._player1->getPreferedName() << " ) won: " << multiGameRunner._gameOutcomes.at(State::Outcome::P1WIN) << " game";
 	os << (multiGameRunner._gameOutcomes.at(State::Outcome::P1WIN) > 1 ? "s" : "") << "\n";
 	os << "Draws: " << multiGameRunner._gameOutcomes.at(State::Outcome::DRAW) << " game";
 	os << (multiGameRunner._gameOutcomes.at(State::Outcome::DRAW) > 1 ? "s" : "") << " drawn\n";
 	
 	return os;
-}
-
-AbstractPlayer::Ptr MultiGameRunner::getPlayer0() const 
-{
-	return _player0;
-}
-
-AbstractPlayer::Ptr MultiGameRunner::getPlayer1() const 
-{
-	return _player1;
-}
-
-std::string MultiGameRunner::getPlayer0Name() const 
-{
-	return _player0->getPreferedName();
-}
-
-std::string MultiGameRunner::getPlayer1Name() const 
-{
-	return _player1->getPreferedName();
-}
+}	
