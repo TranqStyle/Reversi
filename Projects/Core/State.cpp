@@ -23,7 +23,6 @@ namespace
 
     std::vector<Position> getDirections()
     {
-        // TODO This can be moved to static-init time if required
         std::vector<Position> result;
 
         for (int rowDelta = -1; rowDelta <= 1; ++rowDelta)
@@ -53,6 +52,8 @@ namespace
         }
     }
 }
+
+const std::vector<Position> State::s_directions = getDirections();
 
 State::Player State::oppositePlayer(Player player)
 {
@@ -126,7 +127,7 @@ std::set<Move> State::getValidMoves() const
         for (int c = 0; c < State::TABLE_SIZE; ++c)
         {
             Position pos{ r, c };
-            if (!getFlips(pos).empty())
+            if (isPositionValidForMove(pos))
             {
                 result.insert(Move(pos));
             }
@@ -157,6 +158,18 @@ void State::applyMove(const Move& move)
         throw std::runtime_error(oss.str());
     }
 
+    applyMoveAssumeValid(move);
+}
+
+State::CPtr State::applyMoveAssumeValid(const Move& move) const
+{
+    State::Ptr newState = std::make_shared<State>(*this);
+    newState->applyMoveAssumeValid(move);
+    return newState;
+}
+
+void State::applyMoveAssumeValid(const Move& move)
+{
     if (move.isPass())
     {
         ++_consecutivePassCounter;
@@ -229,6 +242,21 @@ void State::executeFlip(const Position& pos)
     }
 }
 
+bool State::isPositionValidForMove(const Position& pos) const
+{
+    if (!isOnEmpty(pos))
+        return false;
+
+    for (const Position& direction : s_directions)
+    {
+        std::unordered_set<Position> flipsInDirection = getFlipsInDirection(pos, direction);
+        if (!flipsInDirection.empty())
+            return true;
+    }
+
+    return false;
+}
+
 std::unordered_set<Position> State::getFlips(const Position& pos) const
 {
     std::unordered_set<Position> result{};
@@ -239,7 +267,7 @@ std::unordered_set<Position> State::getFlips(const Position& pos) const
     }
 
 
-    for (const Position& direction : getDirections())
+    for (const Position& direction : s_directions)
     {
         std::unordered_set<Position> flipsInDirection = getFlipsInDirection(pos, direction);
         result.merge(flipsInDirection);
@@ -315,6 +343,24 @@ int State::countPiecesForPlayer(Player player) const
         for (int c = 0; c < State::TABLE_SIZE; ++c)
         {
             if (getPieceAtPosition(Position(r, c)) == player)
+            {
+                result += 1;
+            }
+        }
+    }
+
+    return result;
+}
+
+int State::countAllPieces() const
+{
+    int result = 0;
+
+    for (int r = 0; r < State::TABLE_SIZE; ++r)
+    {
+        for (int c = 0; c < State::TABLE_SIZE; ++c)
+        {
+            if (getPieceAtPosition(Position(r, c)) != State::Player::NONE)
             {
                 result += 1;
             }
