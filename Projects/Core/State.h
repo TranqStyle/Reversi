@@ -26,9 +26,11 @@ public:
 
     State();
     State(const State& other);
+    State(const Table& table, Player onMove);
 
     static CPtr create();
     static CPtr create(const State& other);
+    static CPtr create(const Table& table, Player onMove);
 
     void restart(); // Initialize to new game state
     Player getOnMove() const;
