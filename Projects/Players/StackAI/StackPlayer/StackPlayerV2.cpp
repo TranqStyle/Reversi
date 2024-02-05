@@ -77,9 +77,11 @@ StackPlayerV2::StackPlayerV2() : StackPlayer("StackV2")
 
 double StackPlayerV2::getHeuristicValueOfState(const State::CPtr& state) const
 {
+    State::Player myPlayer = state->getOnMove();
+    State::Player opponentPlayer = State::oppositePlayer(myPlayer);
+
     // Corner score
     const int UPPER_BORDER_IDX = State::TABLE_SIZE - 1;
-    State::Player myPlayer = state->getOnMove();
     auto table = state->getTable();
     double cornerScore = getCornerScore(myPlayer, table, 0, 0) + getCornerScore(myPlayer, table, 0, UPPER_BORDER_IDX)
         + getCornerScore(myPlayer, table, UPPER_BORDER_IDX, 0) + getCornerScore(myPlayer, table, UPPER_BORDER_IDX, UPPER_BORDER_IDX);
@@ -87,12 +89,12 @@ double StackPlayerV2::getHeuristicValueOfState(const State::CPtr& state) const
     // Move score
     auto validMoves = state->getValidMoves();
     int myMoveCount = validMoves.size();
-    int opponentMoveCount = state->applyMoveAssumeValid(*validMoves.begin())->getValidMoves().size();
+    int opponentMoveCount = State(state->getTable(), opponentPlayer).getValidMoves().size();
     int moveCountDiff = myMoveCount - opponentMoveCount;
     double moveCountScore = moveCountDiff / 100.0;
 
     // Calculate score by cornerScore >> moveCountScore (relying on the fact that cornerScore >= 0.01, moveCountScore < 1.0)
-    double rawScore = cornerScore + 0.01 * moveCountScore;
+    double rawScore = cornerScore + 0.001 * moveCountScore;
 
     bool currentPlayerIsMaximizer = state->getOnMove() == State::Player::P1;
     double score = currentPlayerIsMaximizer ? rawScore : -rawScore;
