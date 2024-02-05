@@ -73,6 +73,15 @@ State::State()
 
 State::State(const State& other) = default;
 
+State::State(const Table& table, Player onMove)
+    : _table(table)
+    , _onMove(onMove)
+    , _outcome(Outcome::PENDING)
+    , _consecutivePassCounter(0)
+{
+    updateOutcome();
+}
+
 State::CPtr State::create()
 {
     return std::make_shared<const State>();
@@ -81,6 +90,11 @@ State::CPtr State::create()
 State::CPtr State::create(const State& state)
 {
     return std::make_shared<const State>(state);
+}
+
+State::CPtr State::create(const Table& table, Player onMove)
+{
+    return std::make_shared<const State>(table, onMove);
 }
 
 void State::restart()
