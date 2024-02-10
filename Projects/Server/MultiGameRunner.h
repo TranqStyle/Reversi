@@ -9,7 +9,7 @@
 class MultiGameRunner 
 {
 public:
-	MultiGameRunner(const AbstractPlayer::Ptr& player0, const AbstractPlayer::Ptr& player1, const size_t& gameSample);
+	MultiGameRunner(const AbstractPlayer::Ptr& player0, const AbstractPlayer::Ptr& player1, const size_t& totalGamesToBePlayed);
 	
 	friend std::ostream& operator<<(std::ostream& os, const MultiGameRunner& multiGameRunner);
 
