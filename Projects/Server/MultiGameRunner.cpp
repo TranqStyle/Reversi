@@ -1,6 +1,6 @@
 #include "MultiGameRunner.h"
 
-MultiGameRunner::MultiGameRunner(const AbstractPlayer::Ptr& player0, const AbstractPlayer::Ptr& player1, size_t totalGamesToBePlayed = 1)
+MultiGameRunner::MultiGameRunner(const AbstractPlayer::Ptr& player0, const AbstractPlayer::Ptr& player1, size_t totalGamesToBePlayed)
 	: _player0{ player0 }, _player1{ player1 }, _totalGamesToBePlayed{ totalGamesToBePlayed }
 {
 }
