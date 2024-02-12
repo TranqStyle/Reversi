@@ -6,7 +6,7 @@ MultiGameRunner::MultiGameRunner(const AbstractPlayer::Ptr& player0, const Abstr
 }
 
 
-void MultiGameRunner::play()
+void MultiGameRunner::play() const
 {
 	GameHandler gameHandler{};
 
