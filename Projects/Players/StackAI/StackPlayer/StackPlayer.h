@@ -21,6 +21,8 @@ protected:
     virtual size_t getMaxDepth(const State::CPtr& baseState) const;
     virtual double getValueOfState(const State::CPtr& state, size_t remainingDepth, double alpha, double beta, const std::string& tracer) const;
     virtual double getHeuristicValueOfState(const State::CPtr& state) const;
+
+    static bool isCurrentPlayerMaximizer(const State::CPtr& state);
 };
 
 } // StackAI
