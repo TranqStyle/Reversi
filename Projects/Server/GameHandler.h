@@ -13,7 +13,7 @@ public:
     GameHandler();
     
     void init(const AbstractPlayer::Ptr& player0, const AbstractPlayer::Ptr& player1);
-    void play();
+    State::Outcome play();
 
 private:
     using MoveHistory = std::vector<Move>;
