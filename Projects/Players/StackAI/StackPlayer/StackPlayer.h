@@ -15,8 +15,12 @@ public:
     
     void notifyEndGame(const State::CPtr& state, PersonalOutcome personalOutcome) const override;
 
-private:
-    //
+protected:
+    StackPlayer(const std::string& preferedName_);
+
+    virtual size_t getMaxDepth(const State::CPtr& baseState) const;
+    virtual double getValueOfState(const State::CPtr& state, size_t remainingDepth, double alpha, double beta, const std::string& tracer) const;
+    virtual double getHeuristicValueOfState(const State::CPtr& state) const;
 };
 
 } // StackAI
