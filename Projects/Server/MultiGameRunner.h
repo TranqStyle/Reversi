@@ -9,7 +9,8 @@
 class MultiGameRunner 
 {
 public:
-	MultiGameRunner(const AbstractPlayer::Ptr& player0, const AbstractPlayer::Ptr& player1, size_t totalGamesToBePlayed);
+
+	MultiGameRunner(const AbstractPlayer::Ptr& player0, const AbstractPlayer::Ptr& player1, const size_t& totalGamesToBePlayed);
 	
 	void play();
 
