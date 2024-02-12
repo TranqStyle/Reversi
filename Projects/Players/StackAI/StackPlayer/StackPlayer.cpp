@@ -94,6 +94,11 @@ namespace
         Move move;
         double value;
     };
+
+    bool isPovGreaterThan(bool maximizer, double lhs, double rhs)
+    {
+        return maximizer ? (lhs < rhs) : (lhs > rhs);
+    }
 }
 
 StackPlayer::StackPlayer() : AbstractPlayer("Stack")
@@ -116,12 +121,17 @@ size_t StackPlayer::getMaxDepth(const State::CPtr& baseState) const
         return 3;
 }
 
+bool StackPlayer::isCurrentPlayerMaximizer(const State::CPtr& state)
+{
+    return state->getOnMove() == State::Player::P1;
+}
+
 Move StackPlayer::getMove(const State::CPtr& state_)
 {
     /**/ // TODO TEMPORARY
     State::CPtr state = state_;
     std::string stateOverride = "";
-    //stateOverride = ".................00000.....10......01...........................1";
+    //stateOverride = "..11.....11.....110010.....000.....000..........................0";
     if (!stateOverride.empty())
     {
         state = deserializeState(stateOverride);
@@ -135,7 +145,7 @@ Move StackPlayer::getMove(const State::CPtr& state_)
 
     double alpha = -2.0;
     double beta = +2.0;
-    bool currentPlayerIsMaximizer = state->getOnMove() == State::Player::P1;
+    bool currentPlayerIsMaximizer = isCurrentPlayerMaximizer(state);
     
     std::optional<MoveAndValue> bestMAV;
     auto validMoves = state->getValidMoves();
@@ -149,7 +159,11 @@ Move StackPlayer::getMove(const State::CPtr& state_)
         else
             beta = std::min(beta, currentValue);
 
-        if (!bestMAV || (bestMAV && bestMAV->value < currentValue))
+        if (!bestMAV)
+        {
+            bestMAV = { currentMove, currentValue };
+        }
+        else if (isPovGreaterThan(currentPlayerIsMaximizer, bestMAV->value, currentValue))
         {
             bestMAV = { currentMove, currentValue };
         }
@@ -197,7 +211,7 @@ double StackPlayer::getValueOfState(const State::CPtr& state, size_t remainingDe
         return heuristicValue;
     }
 
-    bool currentPlayerIsMaximizer = state->getOnMove() == State::Player::P1;
+    bool currentPlayerIsMaximizer = isCurrentPlayerMaximizer(state);
     auto validMoves = state->getValidMoves();
 
     double bestValue;
